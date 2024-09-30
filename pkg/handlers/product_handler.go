@@ -11,6 +11,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// @Summary Get all the products
+// @Description Returns all the products
+// @Tags products
+// @Accept json
+// @Produce json
+// @Success 200
+// @Failure 400
+// @Router /products [get]
 func GetProducts(w http.ResponseWriter, r *http.Request) {
 	productService := app.NewProductService()
 	products := productService.ListProducts()
@@ -19,6 +27,16 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(products)
 }
 
+// @Summary Get a product by ID
+// @Description Returns a product by ID
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param id path int true "Product ID"
+// @Success 200
+// @Failure 400
+// @Failure 404
+// @Router /products/{id} [get]
 func GetProductByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r) // Get route variables
 	id, err := strconv.Atoi(vars["id"])
@@ -40,6 +58,15 @@ func GetProductByID(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(product)
 }
 
+// @Summary Create a product
+// @Description Creates a product
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param product body products.Product true "Product"
+// @Success 201
+// @Failure 400
+// @Router /products [post]
 func CreateProduct(w http.ResponseWriter, r *http.Request) {
 	var product products.Product
 	err := json.NewDecoder(r.Body).Decode(&product)
@@ -56,6 +83,17 @@ func CreateProduct(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Product created successfully")
 }
 
+// @Summary Update a product
+// @Description Updates a product
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param id path int true "Product ID"
+// @Param product body products.Product true "Product"
+// @Success 200
+// @Failure 400
+// @Failure 404
+// @Router /products/{id} [put]
 func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
@@ -82,6 +120,16 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Product updated succesfully")
 }
 
+// @Summary Delete a product
+// @Description Deletes a product
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param id path int true "Product ID"
+// @Success 200
+// @Failure 400
+// @Failure 404
+// @Router /products/{id} [delete]
 func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
