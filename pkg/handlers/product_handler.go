@@ -14,9 +14,8 @@ import (
 // @Summary Get all the products
 // @Description Returns all the products
 // @Tags products
-// @Accept json
 // @Produce json
-// @Success 200
+// @Success 200 {array} products.Product
 // @Failure 400
 // @Router /products [get]
 func GetProducts(w http.ResponseWriter, r *http.Request) {
@@ -24,6 +23,7 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 	products := productService.ListProducts()
 
 	w.Header().Set("Content-Type", "application/json")
+	// w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(products)
 }
 
